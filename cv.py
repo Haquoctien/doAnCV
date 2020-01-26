@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import imutils
 import os
 class Pano():
-    def __init__(self, path, ratio, mindist, overlap, le=True):
+    def __init__(self, path, ratio=0.75, mindist=40, overlap=0.25, le=True):
         filepaths = [os.path.join(path,i) for i in os.listdir(path)]
         self.images = []
         for path in filepaths:
