@@ -79,12 +79,9 @@ class Pano():
         plt.imshow(img3),plt.show()
         
         # Homography estimation using RANSAC
-        if len(good) >= 4:
-            dst = np.float32([ kp1[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
-            src = np.float32([ kp2[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
-            H, masked = cv2.findHomography(src, dst, cv2.RANSAC, 5.0)
-        else:
-            raise AssertionError("Can’t find enough keypoints.")
+        dst = np.float32([ kp1[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
+        src = np.float32([ kp2[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
+        H, masked = cv2.findHomography(src, dst, cv2.RANSAC, 5.0)
         print('Transformation matrix: {}'.format( H))
         # Perspective warping
         width = train_image.shape[1] + query_image.shape[1]
@@ -159,4 +156,4 @@ class Pano():
         
 p = Pano('test/', 0.75, 30, True)
 pano = p.createPanorama()
-cv2.imwrite('pano.png', m)
+cv2.imwrite('pano.png', pano)
