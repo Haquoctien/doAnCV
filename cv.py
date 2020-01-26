@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import imutils
 import os
 class Pano():
-    def __init__(self, path, ratio, mindist, le=True):
+    def __init__(self, path, ratio, mindist, overlap, le=True):
         filepaths = [os.path.join(path,i) for i in os.listdir(path)]
         self.images = []
         for path in filepaths:
@@ -20,6 +20,7 @@ class Pano():
         self.ratio = ratio
         self.mindist = mindist
         self.le = le
+        self.overlap =overlap
     
     def featureExtractor(self, im1, im2):
         query = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY)
@@ -54,7 +55,7 @@ class Pano():
     
     def stitch(self, query_image, train_image):
         if self.le:
-            k = query_image.shape[1] - int(train_image.shape[1]*0.25)
+            k = query_image.shape[1] - int(train_image.shape[1]*self.overlap)
             q = query_image.copy()
             q[:,:k] = 0
             plt.imshow(q),plt.show()
@@ -154,6 +155,6 @@ class Pano():
         plt.imshow(result),plt.show()
         return result
         
-p = Pano('test/', 0.75, 30, True)
+p = Pano('test/', 0.75, 40, 0.25, True)
 pano = p.createPanorama()
 cv2.imwrite('pano.png', pano)
