@@ -155,6 +155,6 @@ class Pano():
         plt.imshow(result),plt.show()
         return result
         
-p = Pano('test/', 0.75, 40, 0.25, True)
+p = Pano('nui/', 0.75, 40, 0.5, True)
 pano = p.createPanorama()
 cv2.imwrite('pano.png', pano)
